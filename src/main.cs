@@ -12,6 +12,10 @@ while (true)
     {
         break;
     }
+    else if (command.StartsWith("echo", StringComparison.InvariantCultureIgnoreCase))
+    {
+        Console.WriteLine(command.Substring(5));
+    }
     else
     {
         Console.WriteLine($"{command}: command not found");
