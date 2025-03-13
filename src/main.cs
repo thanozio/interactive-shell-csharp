@@ -8,7 +8,7 @@ while (true)
         continue;
     }
 
-    if (command.Equals("exit 0", StringComparison.CurrentCultureIgnoreCase))
+    if (command.Equals("exit 0", StringComparison.InvariantCultureIgnoreCase))
     {
         break;
     }
