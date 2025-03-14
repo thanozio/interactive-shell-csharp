@@ -31,25 +31,7 @@ while (true)
         }
         else
         {
-            var pathLocations = Environment.GetEnvironmentVariable("PATH");
-            if (string.IsNullOrEmpty(pathLocations))
-            {
-                Console.WriteLine("Invalid PATH value");
-                continue;
-            }
-
-            var isCommandFound = false;
-            string commandLocation = "";
-            foreach (var directory in pathLocations.Split(Path.PathSeparator))
-            {
-                commandLocation = Path.Combine(directory, command);
-                if (File.Exists(commandLocation))
-                {
-                    isCommandFound = true;
-                    break;
-                }
-            }
-
+            (bool isCommandFound, string commandLocation) = NativeCommandChecker(command);
             if (isCommandFound)
             {
                 Console.WriteLine($"{command} is {commandLocation}");
@@ -64,4 +46,25 @@ while (true)
     {
         Console.WriteLine($"{input}: command not found");
     }
+}
+
+
+static (bool, string) NativeCommandChecker(string command)
+{
+    // asserting cause it's guaranteed per exercise instructions
+    var pathLocations = Environment.GetEnvironmentVariable("PATH")!;
+
+    var isCommandFound = false;
+    string commandLocation = "";
+    foreach (var directory in pathLocations.Split(Path.PathSeparator))
+    {
+        commandLocation = Path.Combine(directory, command);
+        if (File.Exists(commandLocation))
+        {
+            isCommandFound = true;
+            break;
+        }
+    }
+
+    return (isCommandFound, commandLocation);
 }
