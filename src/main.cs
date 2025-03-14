@@ -48,7 +48,7 @@ while (true)
     else
     {
         var arguments = input.Split(' ').Select(arg => arg.Trim()).ToArray();
-        (bool isCommandFound, string commandLocation) = NativeCommandChecker(arguments[0]);
+        (bool isCommandFound, _) = NativeCommandChecker(arguments[0]);
         if (isCommandFound)
         {
             if (arguments.Length > 1)
