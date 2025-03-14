@@ -36,6 +36,6 @@ while (true)
     }
     else
     {
-        Console.WriteLine($"{input}: input not found");
+        Console.WriteLine($"{input}: command not found");
     }
 }
