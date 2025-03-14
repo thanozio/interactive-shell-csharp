@@ -1,23 +1,41 @@
+var validBuiltins = new HashSet<string>()
+{
+    "exit",
+    "echo",
+    "type"
+};
 
 while (true)
 {
     Console.Write("$ ");
-    string? command = Console.ReadLine();
-    if (string.IsNullOrWhiteSpace(command))
+    string? input = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(input))
     {
         continue;
     }
 
-    if (command.Equals("exit 0", StringComparison.InvariantCultureIgnoreCase))
+    if (input.StartsWith("exit", StringComparison.InvariantCultureIgnoreCase))
     {
         break;
     }
-    else if (command.StartsWith("echo", StringComparison.InvariantCultureIgnoreCase))
+    else if (input.StartsWith("echo", StringComparison.InvariantCultureIgnoreCase))
     {
-        Console.WriteLine(command.Substring(5));
+        Console.WriteLine(input.Substring(5));
+    }
+    else if (input.StartsWith("type", StringComparison.InvariantCultureIgnoreCase))
+    {
+        var command = input.Substring(5).ToLower();
+        if (validBuiltins.Contains(command))
+        {
+            Console.WriteLine($"{command} is a shell builtin");
+        }
+        else
+        {
+            Console.WriteLine($"{command}: not found");
+        }
     }
     else
     {
-        Console.WriteLine($"{command}: command not found");
+        Console.WriteLine($"{input}: input not found");
     }
 }
