@@ -16,6 +16,7 @@ while (true)
         continue;
     }
 
+    input = input.Trim();
     if (input.StartsWith("exit", StringComparison.InvariantCultureIgnoreCase))
     {
         break;
@@ -26,7 +27,7 @@ while (true)
     }
     else if (input.StartsWith("type", StringComparison.InvariantCultureIgnoreCase))
     {
-        var command = input.Substring(5).ToLower();
+        var command = input.Substring(5).Trim().ToLower();
         if (validBuiltins.Contains(command))
         {
             Console.WriteLine($"{command} is a shell builtin");
@@ -46,11 +47,18 @@ while (true)
     }
     else
     {
-        (bool isCommandFound, string commandLocation) = NativeCommandChecker(input.ToLower());
+        var arguments = input.Split(' ').Select(arg => arg.Trim()).ToArray();
+        (bool isCommandFound, string commandLocation) = NativeCommandChecker(arguments[0]);
         if (isCommandFound)
         {
-            //Console.WriteLine("Command is native to the computer");
-            Process.Start(commandLocation);
+            if (arguments.Length > 1)
+            {
+                Process.Start(commandLocation, arguments[1..]);
+            }
+            else
+            {
+                Process.Start(commandLocation);
+            }
         }
         else
         {
