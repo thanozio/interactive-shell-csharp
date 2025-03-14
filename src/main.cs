@@ -31,7 +31,33 @@ while (true)
         }
         else
         {
-            Console.WriteLine($"{command}: not found");
+            var pathLocations = Environment.GetEnvironmentVariable("PATH");
+            if (string.IsNullOrEmpty(pathLocations))
+            {
+                Console.WriteLine("Invalid PATH value");
+                continue;
+            }
+
+            var isCommandFound = false;
+            string commandLocation = "";
+            foreach (var directory in pathLocations.Split(Path.PathSeparator))
+            {
+                commandLocation = Path.Combine(directory, command);
+                if (File.Exists(commandLocation))
+                {
+                    isCommandFound = true;
+                    break;
+                }
+            }
+
+            if (isCommandFound)
+            {
+                Console.WriteLine($"{command} is {commandLocation}");
+            }
+            else
+            {
+                Console.WriteLine($"{command}: not found");
+            }
         }
     }
     else
