@@ -53,11 +53,11 @@ while (true)
         {
             if (arguments.Length > 1)
             {
-                Process.Start(commandLocation, arguments[1..]);
+                Process.Start(arguments[0], arguments[1..]);
             }
             else
             {
-                Process.Start(commandLocation);
+                Process.Start(arguments[0]);
             }
         }
         else
