@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 var validBuiltins = new HashSet<string>()
 {
     "exit",
@@ -44,7 +46,16 @@ while (true)
     }
     else
     {
-        Console.WriteLine($"{input}: command not found");
+        (bool isCommandFound, string commandLocation) = NativeCommandChecker(input.ToLower());
+        if (isCommandFound)
+        {
+            //Console.WriteLine("Command is native to the computer");
+            Process.Start(commandLocation);
+        }
+        else
+        {
+            Console.WriteLine($"{input}: command not found");
+        }
     }
 }
 
